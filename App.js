@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 //custom modules
-// const routes = require('./routes/router.js');
+const routes = require('./routes/router.js');
 
 //express app
 const app = express();
@@ -28,14 +28,13 @@ app.use(session({
 }))
 app.use(flash())
 
-
 //adding routes
-// app.use('/', routes)
+app.use('/', routes)
 
-//error hamdling middleware
+//error handling middleware
 app.use((err, req, res, next) => {
     //console.log(err)
-    res.status(422).send({err: err.message})
+    res.status(500).send({err: err.message})
 })
 
 app.listen(process.env.PORT, () => {
