@@ -32,6 +32,12 @@ app.use(flash())
 //adding routes
 // app.use('/', routes)
 
+//error hamdling middleware
+app.use((err, req, res, next) => {
+    //console.log(err)
+    res.status(422).send({err: err.message})
+})
+
 app.listen(process.env.PORT, () => {
     console.log(`app started at ${process.env.PORT}`)
 })
