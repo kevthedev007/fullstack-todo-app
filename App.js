@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const dotenv = require('dotenv');
+const handlebars = require('express-handlebars')
 dotenv.config();
 
 //custom modules
@@ -19,8 +20,12 @@ if (typeof localStorage === "undefined" || localStorage === null) {
 }
 
 //view engine systems
-app.set('views', path.join(__dirname + 'views'))
-app.set('view engine', 'pug');
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'))
+app.engine('hbs', handlebars({
+    layoutsDir: __dirname + '/views/layouts/',
+    extname: 'hbs'
+}))
 
 //adding middlewares
 app.use(express.static('public'));
@@ -39,7 +44,8 @@ app.use('/', routes)
 app.use((req, res, next) => {
     res.locals.currentUuser = req.user;
     res.locals.infos = req.flash('info');
-    res.locals.errors = req.flash('error')
+    res.locals.errors = req.flash('error');
+    next()
 })
 
 //error handling middleware
