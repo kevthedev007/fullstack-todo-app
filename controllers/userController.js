@@ -22,7 +22,8 @@ let userController = {
        const userExist = await pool.query('SELECT * FROM todo WHERE username = $1', [username])
         if (userExist.rows[0]) {
             console.log(userExist.rows[0])
-            return res.send('user already exists')
+            req.flash('error', 'username already exists');
+            return res.status(400).redirect('/signup')
         } 
        const hashedPassword = await bcrypt.hash(req.body.password, 10);
        try {
@@ -35,18 +36,23 @@ let userController = {
 
     login: async function(req, res, next) {
         const {username, password} = req.body;
-        try{
         const checkUser = await pool.query('SELECT * FROM todo WHERE username = $1', [username])
         if(!checkUser.rows[0]) {
-            return res.json('user doesnt exist')
-        } else {
-            const isValid = await bcrypt.compare(password, checkUser.rows[0].password);
-            if(!isValid) return res.json('password is incorrect')
-            res.json('you are logged in')
+            req.flash('error','username does not exist')
+            return res.status(400).redirect('/login')
+        } 
+        const isValid = await bcrypt.compare(password, checkUser.rows[0].password);
+        if(!isValid) {
+            req.flash('error', 'password is incorrect')
+            return res.status(400).redirect('/login')
             }
-        } catch(err) {
-            return next(err)
+        //create and assign token
+        const user = {
+            name: username
         }
+        const accessToken = jwt.sign(user, process.env.SECRET_KEY)
+        localStorage.setItem('token', accessToken)
+        res.redirect('/welcome')
     }
 }
 

@@ -37,16 +37,17 @@ app.use(session({
 }))
 app.use(flash())
 
+//global vars
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.infos = req.flash('info');
+    res.locals.error = req.flash('error');
+    next()
+})
+
 //adding routes
 app.use('/', routes)
 
-//global vars
-app.use((req, res, next) => {
-    res.locals.currentUuser = req.user;
-    res.locals.infos = req.flash('info');
-    res.locals.errors = req.flash('error');
-    next()
-})
 
 //error handling middleware
 app.use((err, req, res, next) => {
