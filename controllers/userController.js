@@ -1,5 +1,6 @@
 const pool = require('../models/queries.js')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 let userController = {
     getSignup: function(req, res) {
@@ -26,7 +27,7 @@ let userController = {
        const hashedPassword = await bcrypt.hash(req.body.password, 10);
        try {
            const newUser = await pool.query('INSERT INTO todo (username, password) VALUES ($1, $2)', [username, hashedPassword])
-           res.send('welcome') 
+           res.redirect('/login')
        } catch(err) {
            return next(err)
        }       
