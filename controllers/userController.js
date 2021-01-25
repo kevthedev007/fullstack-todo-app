@@ -83,9 +83,9 @@ let userController = {
             res.clearCookie('token')
             return res.status(400).redirect('/login')
         }
-       res.render('todo2.pug')
+       res.render('todo2.pug', {username: req.user.name});
     },
-
+    
     //get user todos
     getAllBooks: async function(req, res, next) {
         const myTasks = await pool.query('SELECT todo.tasks,todo.id FROM login JOIN todo ON login.username = todo.username WHERE todo.username = $1', [req.user.name]);
