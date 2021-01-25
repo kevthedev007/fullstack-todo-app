@@ -1,0 +1,29 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="icon", href="data:,")
+        link(rel="stylesheet", href="css/todo.css")
+        script(src="https://kit.fontawesome.com/a076d05399.js")
+        title Todo App
+    body
+    if username
+        div(class="wrapper")
+            header Todo App
+            a(href="/logout" class="logout") Logout
+            div(class="inputField")
+                input(type="text" name="task" id="add" placeholder="Add your new todo") 
+                button(type="submit" id="btn")
+                    i(class= "fas fa-plus")
+            ul(class="todoList")
+                    //- each task in myTask
+                    //-     li=task.tasks
+                    //-         span()
+                    //-             i(class="fas fa-trash")
+            div(class="footer")
+                button(id="deleteAll") Clear All
+    script(src="js/todo.js")
+
+
+
+        

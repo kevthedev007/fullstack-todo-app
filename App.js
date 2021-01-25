@@ -4,7 +4,9 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const dotenv = require('dotenv');
-const handlebars = require('express-handlebars')
+const handlebars = require('express-handlebars');
+const cookieParser = require('cookie-parser');
+const cors = require('cors')
 dotenv.config();
 
 //custom modules
@@ -14,13 +16,14 @@ const routes = require('./routes/router.js');
 const app = express();
 
 //local storage for token
-if (typeof localStorage === "undefined" || localStorage === null) {
-    const LocalStorage = require('node-localstorage').LocalStorage;
-    localStorage = new LocalStorage('./scratch')
-}
+// if (typeof localStorage === "undefined" || localStorage === null) {
+//     const LocalStorage = require('node-localstorage').LocalStorage;
+//     localStorage = new LocalStorage('./scratch')
+// }
 
 //view engine systems
 app.set('view engine', 'hbs');
+app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
 app.engine('hbs', handlebars({
     layoutsDir: __dirname + '/views/layouts/',
@@ -29,7 +32,10 @@ app.engine('hbs', handlebars({
 
 //adding middlewares
 app.use(express.static('public'));
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors())
+app.use(cookieParser())
 app.use(session({
     secret: "kevthedev",
     resave: false,

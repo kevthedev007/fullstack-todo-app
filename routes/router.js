@@ -4,9 +4,11 @@ const userController = require('../controllers/userController.js')
 const router = express.Router();
 
 function verifyToken(req, res,next) {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = req.cookies.token;
     if(!token) {
-        return res.json('access denied! you must be logged in')
+        // req.flash('error', 'access denied! you must be logged in');
+        return res.status(400).redirect('/login')
     }
     try{
         const user = jwt.verify(token, process.env.SECRET_KEY);
@@ -17,17 +19,23 @@ function verifyToken(req, res,next) {
     }
 }
 
+router.get('/', verifyToken, userController.home)
 router.get('/signup', userController.getSignup);
 router.get('/login', userController.getLogin);
 router.post('/signup', userController.signUp);
 router.post('/login', userController.login);
-router.get('/welcome', verifyToken, (req, res) => {
-    res.send('welcome ' + req.user.name)
-})
-router.get('/logout', (req, res) => {
-    localStorage.removeItem('token');
-    res.json('logged out')
-})
+// router.get('/books/getbooks', verifyToken, userController.getAllBooks)
+// router.delete('/delete/task/:index', verifyToken, userController.deleteTasks);
+// router.delete('/delete/deleteAll', verifyToken, userController.deleteAll)
+router.get('/logout', userController.logout);
+router.get('/:username', verifyToken, userController.userRoute);
+router.post('/post', verifyToken, userController.postTask);
+router.get('/books/getbooks', verifyToken, userController.getAllBooks)
+router.delete('/delete/task/:index', verifyToken, userController.deleteTasks);
+router.delete('/delete/deleteAll', verifyToken, userController.deleteAll)
+
+
+
 
 
 module.exports = router;
