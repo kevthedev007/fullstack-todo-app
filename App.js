@@ -15,12 +15,6 @@ const routes = require('./routes/router.js');
 //express app
 const app = express();
 
-//local storage for token
-// if (typeof localStorage === "undefined" || localStorage === null) {
-//     const LocalStorage = require('node-localstorage').LocalStorage;
-//     localStorage = new LocalStorage('./scratch')
-// }
-
 //view engine systems
 app.set('view engine', 'hbs');
 app.set('view engine', 'pug')

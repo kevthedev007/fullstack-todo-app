@@ -9,11 +9,11 @@ body{
     height: 100vh;
     width: 100%;
     text-align: center;
+    overflow-y: hidden;
     background: linear-gradient(to bottom,#68EACC 0%, #497BE8 100%);
 }
 
 .wrapper {
-    /* position: absolute; */
     margin: 120px auto;
     max-width: 500px;
     width: 100%;
@@ -113,10 +113,6 @@ body{
 }
 
 .footer button{
-    /* -webkit-appearance: button;
-    -moz-appearance: button;
-    appearance: button;
-    text-decoration: none; */
     border: none;
     outline: none;
     background: #8e49e8;
