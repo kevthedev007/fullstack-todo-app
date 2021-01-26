@@ -22,7 +22,7 @@ window.addEventListener('load', () => {
 
 //onclick, add a todo
 btn.addEventListener('click', () => {
-    if (add.value.length > 0) {
+    if (add.value.trim().length > 0) {
         fetch('/post', {
             method: 'post',
             headers: { 'Content-type': 'application/json'},
@@ -36,7 +36,7 @@ btn.addEventListener('click', () => {
 
 //on keypress, add a todo
 add.addEventListener("keypress", () => {
-    if (add.value.length > 0 && event.which === 13) {
+    if (add.value.trim().length > 0 && event.which === 13) {
         fetch('/post', {
             method: 'post',
             headers: { 'Content-type': 'application/json'},
