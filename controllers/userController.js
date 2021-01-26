@@ -37,7 +37,7 @@ let userController = {
             req.flash('error', 'username already exists');
             return res.status(400).redirect('/signup')
         } 
-       const hashedPassword = await bcrypt.hash(req.body.password, 10);
+       const hashedPassword = await bcrypt.hash(password, 10);
        try {
            const newUser = await pool.query('INSERT INTO login (username, password) VALUES ($1, $2)', [username, hashedPassword])
            const user = {
