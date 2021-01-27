@@ -7,7 +7,7 @@ let userController = {
     home: function(req, res) {
         //if user still has token, navigate to his page else goto login page
         if(req.user.name) {
-            res.redirect('/' + req.user.name)
+            return res.redirect('/' + req.user.name)
         }
     },
 
